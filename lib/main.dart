@@ -70,8 +70,9 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
+          gradient: LinearGradient(u
             colors: [
               Color(0xFFFBE5C1),
               Color(0xFFFFFFFF),
@@ -106,8 +107,8 @@ class _MainPageState extends State<MainPage> {
           },
         );
       case 3:
-        return TransactionScreen(
-          transactions: context.watch<TransactionProvider>().transactions,
+        return const TransactionScreen(
+          transactions: [],
         );
       case 4:
         return const ProfileScreen();

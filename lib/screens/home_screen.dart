@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:cashio/main.dart';
 import 'package:provider/provider.dart';
+import 'package:cashio/providers/transaction_provider.dart';
 import 'category_screen.dart';
+import 'package:cashio/models/transaction.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   DateTime _selectedDate = DateTime.now();
-  late TransactionProvider _transactionProvider;
 
   @override
   void initState() {
@@ -64,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
+        height: 730,
         child: Column(
           children: [
             // Custom App Bar
@@ -149,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       final totalSpend =
                       _getTotalSpend(provider.transactions);
                       return Text(
-                        '\PKR ${totalSpend.toStringAsFixed(2)}',
+                        'PKR ${totalSpend.toStringAsFixed(2)}',
                         style: const TextStyle(
                           fontSize: 38,
                           fontWeight: FontWeight.bold,
@@ -221,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             SizedBox(height: 4),
                             Text(
-                              '\PKR 50,000.00',
+                              'PKR 50,000.00',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -309,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           date: DateFormat('dd MMM yyyy')
                               .format(recentTransactions[index].date),
                           amount:
-                          '-\$${recentTransactions[index].amount.toStringAsFixed(2)}',
+                          '-${recentTransactions[index].amount.toStringAsFixed(2)}',
                         ),
                       ),
                     ),
@@ -382,7 +383,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: [
               Text(
-                amount,
+                'PKR $amount',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

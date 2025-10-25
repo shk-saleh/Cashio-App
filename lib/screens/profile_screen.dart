@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cashio/main.dart';
+import 'package:provider/provider.dart';
+import 'package:cashio/providers/profile_provider.dart';
+import 'package:cashio/models/user.dart';
 import 'edit_profile_screen.dart';
 import 'about_screen.dart';
 
@@ -13,13 +15,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late UserProfile _userProfile;
-
-  @override
-  void initState() {
-    super.initState();
-    _userProfile = UserProfile();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,94 +24,95 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           children: [
             // User Profile Card
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 12,
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      // Avatar
-                      Container(
-                        padding: const EdgeInsets.all(2),
-                        child: ClipOval(
-                          child: Image.network(_userProfile.avatarUrl,
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          ),
+            Consumer<ProfileProvider>(
+                builder: (context, profileProvider, _) {
+                  final userProfile = profileProvider.userProfile;
+
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 12,
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      // Name and Email
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _userProfile.fullName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            _userProfile.email,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  // Edit Button
-                  GestureDetector(
-                    onTap: () async {
-                      final updatedProfile =
-                      await Navigator.push<UserProfile>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              EditProfileScreen(userProfile: _userProfile),
-                        ),
-                      );
-                      if (updatedProfile != null) {
-                        setState(() {
-                          _userProfile = updatedProfile;
-                        });
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.orangeAccent,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      child: const Text(
-                        'Edit',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            // Avatar
+                            Container(
+                              padding: const EdgeInsets.all(2),
+                              child: ClipOval(
+                                child: Image.network(userProfile.avatarUrl,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            // Name and Email
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  userProfile.fullName,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  userProfile.email,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        // Edit Button
+                        GestureDetector(
+                          onTap: () async {
+                            final updatedProfile =
+                            await Navigator.push<UserProfile>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditProfileScreen(userProfile: userProfile),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.orangeAccent,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: const Text(
+                              'Edit',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
             ),
             const SizedBox(height: 32),
 

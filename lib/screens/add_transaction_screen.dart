@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cashio/main.dart';
+import 'package:uuid/uuid.dart';
+import 'package:cashio/models/transaction.dart';
 
 // Category Model
 class CategoryItem {
@@ -68,12 +69,12 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     }
 
     final transaction = Transaction(
-      id: DateTime.now().toString(),
+      id: const Uuid().v4(),
       category: selectedCategory!.label,
       amount: amount,
       date: DateTime.now(),
-      icon: selectedCategory!.icon,
-      color: selectedCategory!.color,
+      iconCode: selectedCategory!.icon.codePoint,
+      colorValue: selectedCategory!.color.value,
     );
 
     widget.onAddExpense(transaction);
@@ -118,13 +119,13 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: '0.0',
-                hintStyle: const TextStyle(
-                  color: Colors.grey,
-                ),
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none
+                  hintText: '0.0',
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none
               ),
               style: const TextStyle(
                 fontSize: 34,
@@ -135,9 +136,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             const Text(
               'Enter Amount',
               style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.grey
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey
               ),
             ),
             const SizedBox(height: 80),
