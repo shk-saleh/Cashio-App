@@ -72,7 +72,7 @@ class _MainPageState extends State<MainPage> {
       body: Container(
         height: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(u
+          gradient: LinearGradient(
             colors: [
               Color(0xFFFBE5C1),
               Color(0xFFFFFFFF),
